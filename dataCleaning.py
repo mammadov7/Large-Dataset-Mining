@@ -3,17 +3,10 @@ import numpy as np
 
 if __name__ == "__main__":
     print("Loading the data")
-    df = pd.read_csv("dataset/train_test.csv")
+    df = pd.read_csv("dataset/train_test.csv.zip")
     print("data loaded!")
     # One hot encoding
-    df = df.join(pd.get_dummies(df['DEPARTING_AIRPORT']), lsuffix= 'DEP_' )
-    df = df.join(pd.get_dummies(df['PREVIOUS_AIRPORT']), lsuffix= 'PREV_' )
-    df = df.join(pd.get_dummies(df['DEP_BLOCK']))
-    df = df.join(pd.get_dummies(df['CARRIER_NAME']))
-    # Dropping old columns
-    df = df.drop(['DEPARTING_AIRPORT', 'PREVIOUS_AIRPORT', 'CARRIER_NAME', 'DEP_BLOCK'], axis=1)
-
-    print("data loaded!") 
+    df = pd.get_dummies(df, columns=['DEPARTING_AIRPORT', 'PREVIOUS_AIRPORT', 'DEP_BLOCK', 'CARRIER_NAME'], sparse=True)
     print("saving clean data")
-    df.to_csv('dataset/datasetcleaned.csv')
+    df.to_csv('dataset/datasetcleaned.csv.zip', compression = 'zip') 
     print("data saved!")
